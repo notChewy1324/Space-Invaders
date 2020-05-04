@@ -262,7 +262,7 @@ def main():
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() + 20 < HEIGHT or keys[pygame.K_DOWN] and player.y + player_vel + player.get_height() + 20 < HEIGHT: # Down
             player.y += player_vel
         if keys[pygame.K_SPACE] or keys[pygame.K_e]:
-            if level >= 15:
+            if level >= 16:
                 player.fastshoot()
             else:
                 player.shoot()
