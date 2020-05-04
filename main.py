@@ -84,6 +84,10 @@ class Ship():
             self.lasers.append(laser)
             self.cool_down_counter = 1
 
+    def fastshoot(self):
+        laser = Laser(self.x, self.y, self.laser_img)
+        self.lasers.append(laser)
+
     def get_width(self):
         return self.ship_img.get_width()
 
@@ -91,7 +95,7 @@ class Ship():
         return self.ship_img.get_height()
 class Player(Ship):
 
-    def __init__(self, x, y, health=100):
+    def __init__(self, x, y, health=1000000):
         super().__init__(x, y, health=health)
         self.ship_img = YELLOW_SPACE_SHIP
         self.laser_img = YELLOW_LASER
@@ -149,7 +153,7 @@ def main():
     run = True
     FPS = 60
     level = 0
-    lives = 5
+    lives = 5000000
     main_font = pygame.font.SysFont("Helvetica Neue Light", 50)
     lost_font = pygame.font.SysFont("Helvetica Neue Light", 80)
 
@@ -224,7 +228,7 @@ def main():
                 player_vel = 10
                 laser_vel = 13
                 wave_lenth = 25
-            if level >= 21:
+            if level >= 21 and level <= 24:
                 enemy_vel = 5
                 lives += 7
                 if player.health < 100:
@@ -232,6 +236,14 @@ def main():
                 player_vel = 15
                 laser_vel = 18
                 wave_lenth = 45
+            if level >= 25:
+                enemy_vel = 6
+                lives += 10
+                if player.health < 100:
+                    player.health = 100
+                player_vel = 17
+                laser_vel = 20
+                wave_lenth = 65
             for i in range(wave_lenth):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
@@ -250,7 +262,10 @@ def main():
         if keys[pygame.K_s] and player.y + player_vel + player.get_height() + 20 < HEIGHT or keys[pygame.K_DOWN] and player.y + player_vel + player.get_height() + 20 < HEIGHT: # Down
             player.y += player_vel
         if keys[pygame.K_SPACE] or keys[pygame.K_e]:
-            player.shoot()
+            if level >= 15:
+                player.fastshoot()
+            else:
+                player.shoot()
 
         for enemy in enemies[:]:
             enemy.move(enemy_vel)
