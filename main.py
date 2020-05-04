@@ -95,7 +95,7 @@ class Ship():
         return self.ship_img.get_height()
 class Player(Ship):
 
-    def __init__(self, x, y, health=1000000):
+    def __init__(self, x, y, health=100):
         super().__init__(x, y, health=health)
         self.ship_img = YELLOW_SPACE_SHIP
         self.laser_img = YELLOW_LASER
@@ -153,7 +153,7 @@ def main():
     run = True
     FPS = 60
     level = 0
-    lives = 5000000
+    lives = 5
     main_font = pygame.font.SysFont("Helvetica Neue Light", 50)
     lost_font = pygame.font.SysFont("Helvetica Neue Light", 80)
 
