@@ -88,11 +88,11 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] or keys[pygame.K_LEFT] and player.x - player_vel > 0: # Left
             player.x -= player_vel
-        if keys[pygame.K_d] or keys[pygame.K_RIGHT] and player.x + player_vel + player.get_width < WIDTH: # Right
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT] and player.x + player_vel + player.get_width() < WIDTH: # Right
             player.x += player_vel
         if keys[pygame.K_w] or keys[pygame.K_UP] and player.y - player_vel  > 0: # Up
             player.y -= player_vel
-        if keys[pygame.K_s] or keys[pygame.K_DOWN] and player.y + player_vel + player.get_height < HEIGHT: # Down
+        if keys[pygame.K_s] or keys[pygame.K_DOWN] and player.y + player_vel + player.get_height() < HEIGHT: # Down
             player.y += player_vel
 
             
