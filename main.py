@@ -212,12 +212,16 @@ def main():
                 wave_lenth = 10
             if level >= 11 and level <= 15:
                 enemy_vel = 3
-                wave_lenth = 20
+                wave_lenth = 15
             if level >= 16 and level <= 20:
                 enemy_vel = 4
-                wave_lenth = 30
+                player_vel = 10
+                laser_vel = 13
+                wave_lenth = 25
             if level >= 21:
                 enemy_vel = 5
+                player_vel = 15
+                laser_vel = 18
                 wave_lenth = 45
             for i in range(wave_lenth):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
