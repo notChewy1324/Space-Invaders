@@ -213,6 +213,8 @@ def main():
             if level >= 11 and level <= 15:
                 enemy_vel = 3
                 lives += 3
+                if player.health < 20:
+                    player.health += 40
                 wave_lenth = 15
             if level >= 16 and level <= 20:
                 enemy_vel = 4
