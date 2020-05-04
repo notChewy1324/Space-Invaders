@@ -5,7 +5,7 @@ import random
 pygame.font.init()
 
 # Window Config Settings
-WIDTH, HEIGHT = 750, 750
+WIDTH, HEIGHT = 1080, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Space Invaders")
 
@@ -157,8 +157,8 @@ def main():
     wave_lenth = 5 
     enemy_vel = 1 # Enemy speed
 
-    player_vel = 3 # Player speed
-    laser_vel = 5 # Laser speed
+    player_vel = 7 # Player speed
+    laser_vel = 10 # Laser speed
 
     player = Player(300, 630)
 
@@ -240,6 +240,19 @@ def main():
 
         player.move_lasers(-laser_vel, enemies)
 
-            
+def main_menu():
+    title_font = pygame.font.SysFont("Helvetica Neue Light", 80)
+    run = True
+    while run:
+        WIN.blit(BG, (0,0))
+        title_label = title_font.render("Press the mouse to begin...", 1, (255,255,255))
+        WIN.blit(title_label, (WIDTH/2 - title_label.get_width()/2, 350))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                main()
+    pygame.quit()
 
-main()
+main_menu()
