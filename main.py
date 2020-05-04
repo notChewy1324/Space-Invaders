@@ -214,11 +214,11 @@ def main():
                 enemy_vel = 3
                 wave_lenth = 20
             if level >= 16 and level <= 20:
-                enemy_vel = 3
+                enemy_vel = 4
                 wave_lenth = 30
             if level >= 21:
-                enemy_vel = 4
-                wave_lenth = 35
+                enemy_vel = 5
+                wave_lenth = 45
             for i in range(wave_lenth):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
