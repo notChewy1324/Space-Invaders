@@ -154,7 +154,7 @@ def main():
     lost_font = pygame.font.SysFont("Helvetica Neue Light", 80)
 
     enemies = []
-    wave_lenth = 5 
+    wave_lenth = 5 # Min number of enemies
     enemy_vel = 1 # Enemy speed
 
     player_vel = 7 # Player speed
@@ -203,7 +203,22 @@ def main():
 
         if len(enemies) == 0:
             level += 1
-            wave_lenth += 5
+            # Update speed and enemies with new levels
+            if level <= 4:
+                enemy_vel = 1
+                wave_lenth = 5
+            if level >= 5 and level <= 10:
+                enemy_vel = 2
+                wave_lenth = 10
+            if level >= 11 and level <= 15:
+                enemy_vel = 3
+                wave_lenth = 20
+            if level >= 16 and level <= 20:
+                enemy_vel = 3
+                wave_lenth = 30
+            if level >= 21:
+                enemy_vel = 4
+                wave_lenth = 35
             for i in range(wave_lenth):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
