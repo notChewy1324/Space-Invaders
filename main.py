@@ -2,6 +2,7 @@ import pygame
 import os
 import time
 import random
+pygame.init()
 pygame.font.init()
 
 # Window Config Settings
@@ -26,6 +27,23 @@ YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"
 # Background Image
 BG = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background-black.png")), (WIDTH, HEIGHT))
 
+# Game sounds
+def reward_sound():
+    sound = pygame.mixer.Sound("sounds/reward_sound.wav")
+    pygame.mixer.Sound.play(sound)
+
+def damage_sound():
+    sound = pygame.mixer.Sound("sounds/damage_sound.wav")
+    pygame.mixer.Sound.play(sound)
+
+def player_laser_sound():
+    sound = pygame.mixer.Sound("sounds/player_laser_sound.wav")
+    pygame.mixer.Sound.play(sound)
+
+def enemy_laser_sound():
+    sound = pygame.mixer.Sound("sounds/enemy_laser_sound.wav")
+    pygame.mixer.Sound.play(sound)
+
 class Laser:
     def __init__(self, x, y, img):
         self.x = x
@@ -46,7 +64,7 @@ class Laser:
         return collide(self, obj)
 
 class Ship():
-    COOLDOWN = 30
+    COOLDOWN = 20
 
     def __init__(self, x, y, health=100):
         self.x = x
@@ -71,6 +89,7 @@ class Ship():
             elif laser.collision(obj):
                 obj.health -= 10 # Damage
                 self.lasers.remove(laser)
+                damage_sound()
 
     def cooldown(self):
         if self.cool_down_counter >= self.COOLDOWN:
@@ -82,11 +101,16 @@ class Ship():
         if self.cool_down_counter == 0:
             laser = Laser(self.x, self.y, self.laser_img)
             self.lasers.append(laser)
+            player_laser_sound()
             self.cool_down_counter = 1
 
     def fastshoot(self):
-        laser = Laser(self.x, self.y, self.laser_img)
-        self.lasers.append(laser)
+        COOLDOWN = 10
+        if self.cool_down_counter == 0:
+            laser = Laser(self.x, self.y, self.laser_img)
+            self.lasers.append(laser)
+            player_laser_sound()
+            self.cool_down_counter = 1
 
     def get_width(self):
         return self.ship_img.get_width()
@@ -113,6 +137,7 @@ class Player(Ship):
                     if laser.collision(obj):
                         objs.remove(obj)
                         self.lasers.remove(laser)
+                        damage_sound()
 
     def draw(self, window):
         super().draw(window)
@@ -216,34 +241,38 @@ def main():
                 wave_lenth = 10
             if level >= 11 and level <= 15:
                 enemy_vel = 3
-                lives += 3
+                lives += 10
                 if player.health < 20:
                     player.health += 40
                 wave_lenth = 15
+                reward_sound()
             if level >= 16 and level <= 20:
                 enemy_vel = 4
-                lives += 5
+                lives += 15
                 if player.health < 70:
                     player.health += 30
                 player_vel = 10
                 laser_vel = 13
                 wave_lenth = 25
+                reward_sound()
             if level >= 21 and level <= 24:
                 enemy_vel = 5
-                lives += 7
+                lives += 20
                 if player.health < 100:
                     player.health = 100
                 player_vel = 15
                 laser_vel = 18
                 wave_lenth = 45
+                reward_sound()
             if level >= 25:
                 enemy_vel = 6
-                lives += 10
+                lives += 30
                 if player.health < 100:
                     player.health = 100
                 player_vel = 17
                 laser_vel = 20
                 wave_lenth = 65
+                reward_sound()
             for i in range(wave_lenth):
                 enemy = Enemy(random.randrange(50, WIDTH-100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
@@ -271,15 +300,18 @@ def main():
             enemy.move(enemy_vel)
             enemy.move_lasers(laser_vel, player)
 
-            if random.randrange(0, 6*FPS) == 1:
+            if random.randrange(0, 6*FPS) == 1 and enemy.y - enemy_vel > 0:
+                enemy_laser_sound()
                 enemy.shoot()
 
             if collide(enemy, player):
                 player.health -= 15 # Damage
                 enemies.remove(enemy)
+                damage_sound()
             elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
+                damage_sound()
 
         player.move_lasers(-laser_vel, enemies)
 
