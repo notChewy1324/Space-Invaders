@@ -246,14 +246,14 @@ def main():
                 wave_lenth = 10
             if level >= 11 and level <= 15:
                 enemy_vel = 3
-                lives += 10
+                lives += 3
                 if player.health < 20:
                     player.health += 40
                 wave_lenth = 15
                 reward_sound()
             if level >= 16 and level <= 20:
                 enemy_vel = 4
-                lives += 15
+                lives += 5
                 if player.health < 70:
                     player.health += 30
                 player_vel = 10
@@ -262,7 +262,7 @@ def main():
                 reward_sound()
             if level >= 21 and level <= 24:
                 enemy_vel = 5
-                lives += 20
+                lives += 7
                 if player.health < 100:
                     player.health = 100
                 player_vel = 15
@@ -271,7 +271,7 @@ def main():
                 reward_sound()
             if level >= 25:
                 enemy_vel = 6
-                lives += 30
+                lives += 10
                 if player.health < 100:
                     player.health = 100
                 player_vel = 17
