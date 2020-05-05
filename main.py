@@ -224,7 +224,7 @@ def main():
         elif level >= 15 and level <= 19:
             level_label = main_font.render(f"Level: {level}", 1, (255,0,255))
         elif level >= 20 and level <= 24:
-            level_label = main_font.render(f"Level: {level}", 1, (255,0,0))
+            level_label = main_font.render(f"Level: {level}", 1, (175,0,0))
         elif level >= 25:
             level_label = main_font.render(f"Level: {level}", 1, (255,0,0))
 
