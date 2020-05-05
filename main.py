@@ -199,7 +199,12 @@ def main():
     def redraw_window():
         WIN.blit(BG, (0,0))
         # Draw text
-        lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
+        if lives >= 6:
+            lives_label = main_font.render(f"Lives: {lives}", 1, (0,255,0))
+        elif lives <= 3:
+            lives_label = main_font.render(f"Lives: {lives}", 1, (255,0,0))
+        else:
+            lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
         level_label = main_font.render(f"Level: {level}", 1, (255,255,255))
 
         WIN.blit(lives_label, (10,10))
