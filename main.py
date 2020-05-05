@@ -4,6 +4,7 @@ import time
 import random
 pygame.init()
 pygame.font.init()
+enemy_count = 0
 
 # Window Config Settings
 WIDTH, HEIGHT = 1080, 750
@@ -137,6 +138,8 @@ class Player(Ship):
                     if laser.collision(obj):
                         objs.remove(obj)
                         self.lasers.remove(laser)
+                        global enemy_count
+                        enemy_count += 1
                         damage_sound()
 
     def draw(self, window):
@@ -185,6 +188,7 @@ def main():
     enemies = []
     wave_lenth = 5 # Min number of enemies
     enemy_vel = 1 # Enemy speed
+    global enemy_count
 
     player_vel = 7 # Player speed
     laser_vel = 10 # Laser speed
@@ -199,16 +203,34 @@ def main():
     def redraw_window():
         WIN.blit(BG, (0,0))
         # Draw text
+        # Lives text color
         if lives >= 6:
             lives_label = main_font.render(f"Lives: {lives}", 1, (0,255,0))
         elif lives <= 3:
             lives_label = main_font.render(f"Lives: {lives}", 1, (255,0,0))
         else:
             lives_label = main_font.render(f"Lives: {lives}", 1, (255,255,255))
-        level_label = main_font.render(f"Level: {level}", 1, (255,255,255))
+
+        # Enemy count text
+        enemy_count_label = main_font.render(f"{enemy_count}/{wave_lenth}", 1, (255,255,255))
+
+        # Level text color
+        if level <= 4:
+            level_label = main_font.render(f"Level: {level}", 1, (255,255,255))
+        elif level >= 5 and level <= 9:
+            level_label = main_font.render(f"Level: {level}", 1, (17,255,0))
+        elif level >= 10 and level <= 14:
+            level_label = main_font.render(f"Level: {level}", 1, (255,255,0))
+        elif level >= 15 and level <= 19:
+            level_label = main_font.render(f"Level: {level}", 1, (255,0,255))
+        elif level >= 20 and level <= 24:
+            level_label = main_font.render(f"Level: {level}", 1, (255,0,0))
+        elif level >= 25:
+            level_label = main_font.render(f"Level: {level}", 1, (255,0,0))
 
         WIN.blit(lives_label, (10,10))
         WIN.blit(level_label, (WIDTH - level_label.get_width() - 10, 10))
+        WIN.blit(enemy_count_label, (WIDTH - enemy_count_label.get_width() - (WIDTH/2), 10))
 
         for enemy in enemies:
             enemy.draw(WIN)
@@ -239,19 +261,24 @@ def main():
             level += 1
             # Update speed and enemies with new levels
             if level <= 4:
+                enemy_count = 0
                 enemy_vel = 1
                 wave_lenth = 5
-            if level >= 5 and level <= 10:
+            if level >= 5 and level <= 9:
+                enemy_count = 0
                 enemy_vel = 2
                 wave_lenth = 10
-            if level >= 11 and level <= 15:
+                reward_sound()
+            if level >= 10 and level <= 14:
+                enemy_count = 0
                 enemy_vel = 3
                 lives += 3
                 if player.health < 20:
                     player.health += 40
                 wave_lenth = 15
                 reward_sound()
-            if level >= 16 and level <= 20:
+            if level >= 15 and level <= 19:
+                enemy_count = 0
                 enemy_vel = 4
                 lives += 5
                 if player.health < 70:
@@ -260,7 +287,8 @@ def main():
                 laser_vel = 13
                 wave_lenth = 25
                 reward_sound()
-            if level >= 21 and level <= 24:
+            if level >= 20 and level <= 24:
+                enemy_count = 0
                 enemy_vel = 5
                 lives += 7
                 if player.health < 100:
@@ -270,6 +298,7 @@ def main():
                 wave_lenth = 45
                 reward_sound()
             if level >= 25:
+                enemy_count = 0
                 enemy_vel = 6
                 lives += 10
                 if player.health < 100:
@@ -312,10 +341,12 @@ def main():
             if collide(enemy, player):
                 player.health -= 15 # Damage
                 enemies.remove(enemy)
+                enemy_count += 1
                 damage_sound()
             elif enemy.y + enemy.get_height() > HEIGHT:
                 lives -= 1
                 enemies.remove(enemy)
+                enemy_count += 1
                 damage_sound()
 
         player.move_lasers(-laser_vel, enemies)
