@@ -290,7 +290,7 @@ def main():
             if level >= 20 and level <= 24:
                 enemy_count = 0
                 enemy_vel = 5
-                lives += 7
+                lives += 20
                 if player.health < 100:
                     player.health = 100
                 player_vel = 15
@@ -300,9 +300,9 @@ def main():
             if level >= 25:
                 enemy_count = 0
                 enemy_vel = 6
-                lives += 10
+                lives += 50
                 if player.health < 100:
-                    player.health = 100
+                    player.health = 150
                 player_vel = 17
                 laser_vel = 20
                 wave_lenth = 65
